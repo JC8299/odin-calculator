@@ -1,0 +1,1 @@
+A simple calculator that will be used in a browser.
