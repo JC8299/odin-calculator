@@ -1,0 +1,89 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0px;
+    flex: 1;
+}
+
+button {
+    border-style: solid;
+    border-color: black;
+    width: 64px;
+    height: 64px;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 24px;
+    gap: 16px;
+}
+
+.display {
+    display: flex;
+    border: 2px solid black;
+    font-family: 'Courier New', Courier, monospace;
+    height: 32px;
+    align-items: center;
+    padding: 8px;
+}
+
+.displayContent {
+    margin: 0;
+}
+
+.delete {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+}
+
+.delete > button {
+    flex: 1;
+    border-radius: 3px;
+    border-width: 1px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.digits {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.digitRow {
+    display: flex;
+    gap: 3px;
+}
+
+.digitButton {
+    border-radius: 50%;
+    border-width: 2px;
+    padding: 16px;
+}
+
+.evaluate {
+    border-radius: 3px;
+    border-width: 1px;
+}
+
+.operators {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.operators > button {
+    border-width: 1px;
+    padding: 8px;
+    border-radius: 3px;
+}
