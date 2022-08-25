@@ -14,6 +14,10 @@ button {
     height: 64px;
 }
 
+button.activeOperator {
+    background-color: darkgray;
+}
+
 .calculator {
     display: flex;
     flex-direction: column;
