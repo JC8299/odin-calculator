@@ -1,8 +1,6 @@
 // TODO:
 // bug test
 // css
-// keyboard support
-// rounding
 
 let displayValue = document.querySelector('.displayContent').textContent;
 let decimalPoint = false;
@@ -11,15 +9,15 @@ let operationReplace = false;
 let storedValue = 0;
 
 function add(left, right) {
-    return Number(left) + Number(right);
+    return (Number(left) + Number(right)).toFixed(3);
 }
 
 function subtract(left, right) {
-    return Number(left) - Number(right);
+    return (Number(left) - Number(right)).toFixed(3);
 }
 
 function multiply(left, right) {
-    return Number(left) * Number(right);
+    return (Number(left) * Number(right)).toFixed(3);
 }
 
 function divide(left, right) {
@@ -27,7 +25,7 @@ function divide(left, right) {
         alert('No.\nCannot divide by 0.');
         return null;
     }
-    return Number(left) / Number(right);
+    return (Number(left) / Number(right)).toFixed(3);
 }
 
 function operate(operator, left, right) {
@@ -35,22 +33,6 @@ function operate(operator, left, right) {
         return;
     }
     displayValue = operator(left, right);
-    switch (operation) {
-        case '+':
-            addition.classList.remove('activeOperator');
-            break;
-        case '-':
-            subtraction.classList.remove('activeOperator');
-            break;
-        case '*':
-            multiplication.classList.remove('activeOperator');
-            break;
-        case '/':
-            division.classList.remove('activeOperator');
-            break;
-        default:
-            break;
-    }
     operation = '';
     storedValue = 0;
     operationReplace = false;
@@ -63,21 +45,25 @@ function storedOperation() {
             case '+':
                 operate(add, storedValue, displayValue);
                 storedValue = displayValue;
-                return true;
+                addition.classList.remove('activeOperator');
+                return;
             case '-':
                 operate(subtract, storedValue, displayValue);
                 storedValue = displayValue;
-                return true;
+                subtraction.classList.remove('activeOperator');
+                return;
             case '*':
                 operate(multiply, storedValue, displayValue);
                 storedValue = displayValue;
-                return true;
+                multiplication.classList.remove('activeOperator');
+                return;
             case '/':
                 operate(divide, storedValue, displayValue);
                 if (displayValue != 0) {
                     storedValue = displayValue;
                 }
-                return true;
+                division.classList.remove('activeOperator');
+                return;
             default:
                 break;
         }
@@ -85,7 +71,6 @@ function storedOperation() {
     storedValue = displayValue;
     displayValue = '0';
     updateDisplay();
-    return false;
 }
 
 // Helper function to update the display
@@ -132,6 +117,86 @@ function digitPressed(e) {
     }
 
     updateDisplay();
+}
+
+function keyboardPressed(e) {
+    console.log(e.keyCode);
+    if (e.shiftKey) {
+        switch(e.keyCode) {
+            case 187:
+                storedOperation();
+                operation = '+';
+                addition.classList.add('activeOperator');
+                operationReplace = true;
+                break;
+            case 56:
+                storedOperation();
+                operation = '*';
+                multiplication.classList.add('activeOperator');
+                operationReplace = true;
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        // digits
+        if (e.keyCode > 47 && e.keyCode < 58 || e.keyCode === 190) {
+            let num = Number(e.keyCode) - 48;
+            if (e.keyCode === 190) num = '.';
+            
+            if (operationReplace === true) {
+                displayValue = '0';
+                operationReplace = false;
+            }
+            if (displayValue === '0' && !(num === '.')) {
+                displayValue = num;
+            }
+            else {
+                if (num === '.') {
+                    if (!decimalPoint) {
+                        decimalPoint = true;
+                        displayValue = `${displayValue}${num}`;
+                    }
+                }
+                else {
+                    displayValue = `${displayValue}${num}`;
+                }
+            }
+        
+            updateDisplay();
+        }
+        // unmodified keyboard operators
+        else {
+            // 13 enter
+            // 187 =+
+            // 189 -_
+            // 191 /?
+            switch(e.keyCode) {
+                case 189:
+                    storedOperation();
+                    operation = '-';
+                    subtraction.classList.add('activeOperator');
+                    operationReplace = true;
+                    break;
+                case 191:
+                    storedOperation();
+                    operation = '/';
+                    division.classList.add('activeOperator');
+                    operationReplace = true;
+                    break;
+                case 13:
+                case 187:
+                    if (operation !== '') storedOperation();
+                    break;
+                case 8:
+                    undoPressed();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 // Event Listeners
@@ -186,3 +251,6 @@ let evaluation = document.querySelector('.evaluate');
 evaluation.addEventListener('click', () => {
     if (operation !== '') storedOperation();
 });
+
+// detect keypresses
+window.addEventListener('keydown', keyboardPressed);
