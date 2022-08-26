@@ -5,17 +5,19 @@ body {
     height: 100vh;
     margin: 0px;
     flex: 1;
+    background-color: #3C6E71;
 }
 
 button {
     border-style: solid;
-    border-color: black;
+    border-color: #353535;
     width: 64px;
     height: 64px;
+    background-color: #D9D9D9;
 }
 
 button.activeOperator {
-    background-color: darkgray;
+    background-color: #353535;
 }
 
 .calculator {
@@ -25,6 +27,7 @@ button.activeOperator {
     border-radius: 8px;
     padding: 24px;
     gap: 16px;
+    background-color: #284B63;
 }
 
 .display {
@@ -34,6 +37,7 @@ button.activeOperator {
     height: 32px;
     align-items: center;
     padding: 8px;
+    background-color: #FFFFFF;
 }
 
 .displayContent {
